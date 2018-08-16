@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理系统</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            list-style-type: none;
+        }
+        p{
+            text-align: center
+        }
+        li{
+            display: block;
+            float: left;
+            margin-left: 20px;
+            margin-top: 30px;
+        }
+        a{
+            color: black;
+            text-decoration: none
+        }
+        .disabled {
+            color: #000;
+            opacity: .2;
+            cursor: not-allowed;
+        }
+        input{
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+    </style>
+</head>
+<body>
+欢迎来到图书系统<br>
+    <div>
+        <ul>
+            <li><a href ={% url 'home' 1 %}>显示全部图书</a></li>
+            <li><a href ={% url 'home' 2 %}>查找图书</a></li>
+            <li><a href ={% url 'home' 3 %}>添加图书</a></li>
+        </ul>
+        <div class="clear" style="clear: both"></div>
+        <div style="margin-top: 30px;width: 900px;height: 500px;border:gainsboro 1px solid;margin: 0 auto">
+
+            {% ifequal num None %}
+                {% if message %}
+                {{ message }}
+                {% endif %}
+            {% endifequal %}
+
+            {% ifequal num 1 %}
+                {% for book in books%}
+                    <a href={% url 'home' 5 book.book_id %}><div style="margin-top: 20px;margin-left: 25px;float: left;width: 150px;height: 200px;background:darkblue;line-height: 25px;color: white">
+                    <p>{{ book.book_id }}</p>
+                    <p>{{ book.book_name }}</p>
+                    <p>{{ book.book_type }}</p>
+                    <p>{{ book.book_price }}</p>
+                    </div></a>
+                {% endfor %}
+                <div style="clear: both"></div>
+                {% if books.has_previous %}
+                <li><a href="?page={{ books.previous_page_number }}">上一页</a></li>
+                {% else %}
+                <li><a class="disabled">上一页</a></li>
+                {% endif %}
+                <span class="current" style="margin-top: 30px;margin-left: 10px;line-height: 30px;text-align:center ;border: black 1px solid;width: 30px;height: 30px;float: left">{{ books.number }}</span>
+                {% if books.has_next %}
+                <li><a href="?page={{ books.next_page_number }}">下一页</a></li>
+                {% else %}
+                <li><a class="disabled">下一页</a></li>
+                {% endif %}
+            {% endifequal %}
+
+            {% ifequal num 2 %}
+                <li><a href ={% url 'home' 2 1 %}>书名查找</a></li>
+                <li><a href ={% url 'home' 2 2 %}>编号查找</a></li>
+                <li><a href ={% url 'home' 2 3 %}>类别查找</a></li>
+                <div style="clear: both"></div>
+                {% ifequal select_type None %}
+                    <p>请选择查询类型</p><br>
+                {% endifequal %}
+
+                {% ifequal select_type 1 %}
+                    {% if messages %}
+                    <p>{{ messages }}</p>
+                    {% endif %}
+                    <form action="" method="POST" enctype="multipart/form-data">
+                    请输入想要查询的图书书名:<input type="text" name="book_name">
+                    <input type="submit" value="查询">
+                    </form>
+                    {% if result %}
+                        {% for res in result %}
+                        <a href={% url 'home' 5 res.book_id %}><div style="margin-left: 20px;margin-top:20px;width: 150px;height: 200px;background: darkblue;line-height: 50px;color: white;float: left">
+                            <p>{{ res.book_id }}</p>
+                            <p>{{ res.book_name }}</p>
+                            <p>{{ res.book_type }}</p>
+                            <p>{{ res.book_price }}</p>
+                        </div></a>
+                        {% endfor %}
+                    {% endif %}
+                {% endifequal %}
+
+                {% ifequal select_type 2 %}
+                    {% if messages %}
+                    <p>{{ messages }}</p>
+                    {% endif %}
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        请输入想要查询的图书编号:<input type="text" name="book_id">
+                        <input type="submit" value="查询">
+                    </form>
+                    {% if result %}
+                        <a href={% url 'home' 5 result.book_id%}><div style="margin-left: 20px;margin-top:20px;width: 150px;height: 200px;background: darkblue;line-height: 50px;color: white;float: left">
+                            <p>{{ result.book_id }}</p>
+                            <p>{{ result.book_name }}</p>
+                            <p>{{ result.book_type }}</p>
+                            <p>{{ result.book_price }}</p>
+                        </div></a>
+                    {% endif %}
+                {% endifequal %}
+
+                {% ifequal select_type 3 %}
+                    {% if messages %}
+                    <p>{{ messages }}</p>
+                    {% endif %}
+                    <form action="" method="POST"  enctype="multipart/form-data">
+                        请输入想要查询的图书类型:<input type="text" name="book_type">
+                        <input type="submit" value="查询">
+                    </form>
+                    {% for book in books%}
+                    <a href={% url 'home' 5 book.book_id%}><div style="margin-top: 20px;margin-left: 25px;float: left;width: 150px;height: 200px;background:darkblue;line-height: 25px;color: white">
+                    <p>{{ book.book_id }}</p>
+                    <p>{{ book.book_name }}</p>
+                    <p>{{ book.book_type }}</p>
+                    <p>{{ book.book_price }}</p>
+                    </div></a>
+                    {% endfor %}
+                    <div style="clear: both"></div>
+                {% endifequal %}
+            {% endifequal %}
+
+            {% ifequal num 3 %}
+                {% if messages %}
+                {{ messages }}
+                {% endif %}
+                <form action="" method="POST" enctype="multipart/form-data">
+                    书名:<input type="text" name="book_name">
+                    图书类型:<input type="text" name="book_type">
+                    图书价格:<input type="text" name="book_price">
+                    <input type="submit" value="添加">
+                </form>
+            {% endifequal %}
+
+            {% ifequal num 5 %}
+                {% if messages %}
+                {{ messages }}
+                {% endif %}
+                <form action="" method="POST" enctype="multipart/form-data">
+                    书    名:<input type="text" name="book_name" value={{ books.book_name }} ><br>
+                    图书类型:{{ books.book_type }}<br>
+                    图书价格:<input type="text" name="book_price" value={{ books.book_price }}><br>
+                    <input type="submit" value="修改">
+                    <input type="submit" value="删除" formaction={% url 'book_delete' books.book_id %}>
+                </form>
+            {% endifequal %}
+        </div>
+    </div>
+</body>
+</html>
