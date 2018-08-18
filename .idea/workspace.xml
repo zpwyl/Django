@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3293a4ba-12f1-4f30-9b5f-d31c2862e873" name="Default" comment="" />
+    <list default="true" id="3293a4ba-12f1-4f30-9b5f-d31c2862e873" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/mysite/learn/function.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/learn/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/learn/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/learn/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/learn/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/learn/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/learn/views.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +36,10 @@
     <session id="-1671244230">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="13" />
+          <entry key="project.closed" value="16" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.18" value="1" />
           <entry key="project.open.time.20" value="3" />
           <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.26" value="1" />
@@ -40,35 +47,39 @@
           <entry key="project.open.time.38" value="1" />
           <entry key="project.open.time.40" value="1" />
           <entry key="project.open.time.44" value="1" />
-          <entry key="project.open.time.46" value="2" />
+          <entry key="project.open.time.46" value="3" />
+          <entry key="project.open.time.59" value="1" />
+          <entry key="project.open.time.77" value="1" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="14" />
+          <entry key="project.opened" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="567" />
-          <entry key="py" value="2331" />
+          <entry key="html" value="681" />
+          <entry key="py" value="2929" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="567" />
-          <entry key="Python" value="2326" />
+          <entry key="HTML" value="681" />
+          <entry key="Python" value="2924" />
           <entry key="SQL" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="5" />
-          <entry key="py" value="8" />
+          <entry key="html" value="6" />
+          <entry key="jpg" value="2" />
+          <entry key="py" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="5" />
-          <entry key="Python" value="8" />
+          <entry key="HTML" value="6" />
+          <entry key="Image" value="2" />
+          <entry key="Python" value="10" />
         </counts>
       </usages-collector>
     </session>
@@ -84,11 +95,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysite/learn/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
+            <state relative-caret-position="308">
+              <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mysite/learn/form.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="18" column="78" selection-start-line="18" selection-start-column="78" selection-end-line="18" selection-end-column="78" />
             </state>
           </provider>
         </entry>
@@ -96,8 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysite/learn/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="880">
-              <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
+            <state relative-caret-position="1892">
+              <caret line="86" column="37" selection-start-line="86" selection-start-column="37" selection-end-line="86" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -105,21 +125,30 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mysite/learn/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="880">
-              <caret line="144" column="73" selection-start-line="144" selection-start-column="73" selection-end-line="144" selection-end-column="73" />
+            <state relative-caret-position="-110">
+              <caret line="177" column="24" selection-start-line="177" selection-start-column="24" selection-end-line="177" selection-end-column="24" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
-                <element signature="e#499#6469#0" />
-                <element signature="e#609#995#0" />
-                <element signature="e#1021#4246#0" />
-                <element signature="e#1176#2109#0" />
-                <element signature="e#2151#2932#0" />
-                <element signature="e#2974#4246#0" />
-                <element signature="e#4709#5698#0" />
-                <element signature="e#5724#6345#0" />
-                <element signature="e#7531#8316#0" />
-                <marker date="1534413610295" expanded="true" signature="8239:8414" ph="..." />
+                <marker date="1534493968389" expanded="true" signature="8702:8877" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mysite/learn/templates/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="91" column="57" selection-start-line="91" selection-start-column="57" selection-end-line="91" selection-end-column="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mysite/learn/function.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1496">
+              <caret line="70" column="60" selection-start-line="70" selection-start-column="60" selection-end-line="70" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -128,7 +157,7 @@
         <entry file="file://$PROJECT_DIR$/mysite/learn/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="176">
-              <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
+              <caret line="10" column="76" selection-start-line="10" selection-start-column="76" selection-end-line="10" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -168,11 +197,13 @@
         <option value="$PROJECT_DIR$/mysite/learn/form.py" />
         <option value="$PROJECT_DIR$/mysite/learn/admin.py" />
         <option value="$PROJECT_DIR$/mysite/bookdata.py" />
-        <option value="$PROJECT_DIR$/mysite/learn/templates/login.html" />
         <option value="$PROJECT_DIR$/mysite/learn/templates/register.html" />
-        <option value="$PROJECT_DIR$/mysite/learn/urls.py" />
+        <option value="$PROJECT_DIR$/mysite/learn/templates/function.py" />
         <option value="$PROJECT_DIR$/mysite/learn/templates/home.html" />
         <option value="$PROJECT_DIR$/mysite/learn/views.py" />
+        <option value="$PROJECT_DIR$/mysite/learn/function.py" />
+        <option value="$PROJECT_DIR$/mysite/learn/templates/login.html" />
+        <option value="$PROJECT_DIR$/mysite/learn/urls.py" />
       </list>
     </option>
   </component>
@@ -182,11 +213,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="292" />
-    <option name="y" value="9" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-20" />
+    <option name="y" value="26" />
     <option name="width" value="1041" />
-    <option name="height" value="780" />
+    <option name="height" value="757" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -194,7 +225,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -220,10 +250,19 @@
               <item name="learn" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="zp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="zp" type="462c0819:PsiDirectoryNode" />
+              <item name="mysite" type="462c0819:PsiDirectoryNode" />
+              <item name="learn" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="img" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -232,10 +271,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.templateLanguages.PyTemplateLanguageModulesConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\2018\pycharm\MyProject\web\django\zp\mysite\learn" />
       <recent name="D:\2018\pycharm\MyProject\web\django\zp\mysite\learn\templates" />
       <recent name="D:\2018\pycharm\MyProject\web\django\zp\mysite\learn\templates\learn" />
       <recent name="C:\Users\Administrator\Desktop\1\django\zp\mysite\learn\templates" />
@@ -345,7 +385,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.401631" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20574887" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -357,7 +397,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.27540985" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.40983605" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="Python Console" order="12" />
@@ -368,7 +408,7 @@
       <window_info anchor="right" id="Database" order="4" weight="0.32980332" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.401631" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20574887" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -380,9 +420,9 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32569557" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.2751159" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.40983605" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="11" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -450,13 +490,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/learn/form.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharm2018.1/system/python_stubs/1427200117/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
@@ -478,13 +511,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/learn/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mysite/learn/templates/register.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
@@ -492,44 +518,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/learn/urls.py">
+    <entry file="file://$PROJECT_DIR$/mysite/code.jpg" />
+    <entry file="file://$PROJECT_DIR$/mysite/learn/templates/img/code.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/learn/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
+        <state relative-caret-position="308">
+          <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/learn/views.py">
+    <entry file="file://$PROJECT_DIR$/mysite/learn/form.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="144" column="73" selection-start-line="144" selection-start-column="73" selection-end-line="144" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
-            <element signature="e#499#6469#0" />
-            <element signature="e#609#995#0" />
-            <element signature="e#1021#4246#0" />
-            <element signature="e#1176#2109#0" />
-            <element signature="e#2151#2932#0" />
-            <element signature="e#2974#4246#0" />
-            <element signature="e#4709#5698#0" />
-            <element signature="e#5724#6345#0" />
-            <element signature="e#7531#8316#0" />
-            <marker date="1534413610295" expanded="true" signature="8239:8414" ph="..." />
-          </folding>
+        <state relative-caret-position="396">
+          <caret line="18" column="78" selection-start-line="18" selection-start-column="78" selection-end-line="18" selection-end-column="78" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mysite/learn/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
+        <state relative-caret-position="1892">
+          <caret line="86" column="37" selection-start-line="86" selection-start-column="37" selection-end-line="86" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mysite/learn/models.py">
+    <entry file="file://$PROJECT_DIR$/mysite/learn/function.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
+        <state relative-caret-position="1496">
+          <caret line="70" column="60" selection-start-line="70" selection-start-column="60" selection-end-line="70" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/learn/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="10" column="76" selection-start-line="10" selection-start-column="76" selection-end-line="10" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/learn/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-110">
+          <caret line="177" column="24" selection-start-line="177" selection-start-column="24" selection-end-line="177" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+            <marker date="1534493968389" expanded="true" signature="8702:8877" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mysite/learn/templates/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="91" column="57" selection-start-line="91" selection-start-column="57" selection-end-line="91" selection-end-column="57" />
         </state>
       </provider>
     </entry>

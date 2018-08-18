@@ -7,14 +7,14 @@ from .models import User, Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import hashlib
 import re
-
+from .function import function, get_yzm
 
 # Create your views here.
 @csrf_exempt
 @login_required(login_url='/login/')
 def home(request, num=None, select_type=None):
     if num == None:
-        return render(request, 'home.html', message('欢迎来到图书馆系统!!!'))
+        return render(request, 'home.html', function.message('欢迎来到图书馆系统!!!'))
     if num == 1:
         books = Book.objects.all()
         paginator = Paginator(books, 5)
@@ -37,15 +37,13 @@ def home(request, num=None, select_type=None):
                     book_name = sf.cleaned_data['book_name']
                     bfs = []
                     bf = Book.objects.all()
-                    try:
-                        for b in bf:
-                            if book_name == b.book_name:
-                                bfs.append(b)
-                    except:
-                        return render(request, 'home.html', {'num': num, 'select_type': select_type, 'messages': '查无此书，请重新输入'})
-                    return render(request, 'home.html', {'num': num, 'select_type': select_type, 'result': bfs})
-                else:
-                    return render(request, 'home.html', {'num': num, 'select_type': select_type, 'messages': '输入为空，请输入书名！'})
+                    for b in bf:
+                        if book_name == b.book_name:
+                            bfs.append(b)
+                            return render(request, 'home.html', {'num': num, 'select_type': select_type, 'result': bfs})
+                        else:
+                            return render(request, 'home.html',
+                                          {'num': num, 'select_type': select_type, 'messages': '查无此书，请重新输入'})
             else:
                 return render(request, 'home.html', {'num': num, 'select_type': select_type})
         if select_type == 2:
@@ -67,17 +65,24 @@ def home(request, num=None, select_type=None):
                 sf = BookForm(request.POST)
                 if sf.is_valid():
                     book_type = sf.cleaned_data['book_type']
+                    print(book_type, '>>>')
                     books = []
                     bf = Book.objects.all()
+                    print(len(bf))
                     try:
                         for b in bf:
                             if book_type == b.book_type:
+                                print(b.book_type)
                                 books.append(b)
+                        else:
+                            if len(books)==0:
+                                return render(request, 'home.html',
+                                          {'num': num, 'select_type': select_type, 'messages': '查无此书，请重新输入'})
                     except:
-                        return render(request, 'home.html', {'num': num, 'select_type': select_type, 'messages': '查无此书，请重新输入'})
-                    return render(request, 'home.html', {'num': num, 'select_type': select_type, 'books': books})
-                else:
-                    return render(request, 'home.html', {'num': num, 'select_type': select_type, 'messages':'输入为空，请输入书名！'})
+                        pass
+                    else:
+                        return render(request, 'home.html', {'num': num, 'select_type': select_type, 'books': books})
+
             else:
                 return render(request, 'home.html', {'num': num, 'select_type': select_type})
 
@@ -94,12 +99,12 @@ def home(request, num=None, select_type=None):
                 book_type = bf.cleaned_data['book_type']
                 book_price = bf.cleaned_data['book_price']
                 if book_name in Book.objects.all().values('book_name'):
-                    return render(request, 'home.html', messages(num, '图书已存在'))
+                    return render(request, 'home.html', function.messages(num, '图书已存在'))
                 else:
                     Book.objects.create(book_name=book_name, book_type=book_type, book_price=book_price)
-                    return render(request, 'home.html', messages(num, '添加成功'))
+                    return render(request, 'home.html', function.messages(num, '添加成功'))
             else:
-                return render(request, 'home.html', messages(num, '添加书籍信息不完整'))
+                return render(request, 'home.html', function.messages(num, '添加书籍信息不完整'))
         else:
             return render(request, 'home.html', {'num': num})
 
@@ -115,7 +120,7 @@ def home(request, num=None, select_type=None):
                 book.save()
                 return render(request, 'home.html',  {'num': num})
             else:
-                return render(request, 'home.html', messages(num, '添加书籍信息不完整'))
+                return render(request, 'home.html', function.messages(num, '添加书籍信息不完整'))
         return render(request, 'home.html', {'num': num, 'books': book})
 
 
@@ -123,7 +128,7 @@ def home(request, num=None, select_type=None):
 def book_delete(request, book_id):
     if request.POST:
         Book.objects.get(book_id=book_id).delete()
-        return render(request, 'home.html', message('删除成功'))
+        return render(request, 'home.html', function.message('删除成功'))
 
 
 @csrf_exempt
@@ -142,7 +147,7 @@ def register(request):
                 email = rf.cleaned_data['email']
                 emails = is_valid_email(email)
                 if emails == None:
-                    return render(request, 'register.html', message("邮箱格式输入错误"))
+                    return render(request, 'register.html', function.message("邮箱格式输入错误"))
                 if password == password1:
                     pwd = calc_md5(password)
                     User.objects.create(username=rf.cleaned_data['username'],
@@ -150,11 +155,11 @@ def register(request):
                                         email=rf.cleaned_data['email'])
                     return redirect('/')
                 else:
-                    return render(request, 'register.html', message("两次密码输入不一致"))
+                    return render(request, 'register.html', function.message("两次密码输入不一致"))
             else:
-                return render(request, 'register.html', message("用户名已存在"))
+                return render(request, 'register.html', function.message("用户名已存在"))
         else:
-            return render(request, 'register.html', message('注册失败'))
+            return render(request, 'register.html', function.message('注册失败'))
     else:
         rf = RegisterForm()
         return render(request, 'register.html')
@@ -170,16 +175,22 @@ def login(request):
         if request.method == 'POST':
             lf = LoginForm(request.POST)
             if lf.is_valid():
+                print('1')
+                yzm1 = get_yzm.get_yzm()
                 username = lf.cleaned_data['username']
                 password = lf.cleaned_data['password']
-                pwd = calc_md5(password)
-                if User.objects.filter(username__exact=username, password__exact=pwd):
-                    return redirect('/home/')
+                yzm = request.POST['yzm']
+                if yzm == yzm1:
+                    pwd = calc_md5(password)
+                    if User.objects.filter(username__exact=username, password__exact=pwd):
+                        return redirect('/home/')
+                    else:
+                        ErrorNum += 1
+                        return render(request, 'login.html', function.message('密码或用户名输入错误'))
                 else:
-                    ErrorNum += 1
-                    return render(request, 'login.html', message('密码或用户名输入错误'))
+                    return render(request, 'login.html', function.message('验证码输入错误'))
             else:
-                return render(request, 'login.html', message('密码或用户名为空'))
+                return render(request, 'login.html', function.message('密码或用户名为空'))
         else:
             lf = LoginForm()
             return render(request, 'login.html', {'lf': lf})
@@ -204,11 +215,6 @@ def is_valid_email(email):
     else:
         return m
 
-def message(message):
-    return {'message': message}
 
-
-def messages(num, messages):
-    return {'num': num, 'messages': messages}
 
 
