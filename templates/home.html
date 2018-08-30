@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>图书管理系统</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/1.css">
+    <script type="text/javascript" src="/static/js/1.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="header">
+			<div class="top">
+				<div>
+					<ul>
+						<a href="#"><li>客户服务</li></a>
+						<a href="#"><li>企业采购</li></a>
+						<a href="#"><li>我要出书</li></a>
+						<a href="#"><li>小说投稿</li></a>
+						<a href="#"><li>我的图书馆</li></a>
+					</ul>
+                    <div class="welcome"><p>欢迎光临我的图书馆，请</p><a href="#">登录</a></div>
+                    <div class="title">
+                        <p><a href="#">亚木图书</a><p>
+                    </div>
+                </div>
+			</div>
+			<div class="nav">
+                <div>
+                    <div class="logo"><p>亚木图书</p></div>
+                    <div class="search">
+                        <input type="text">
+                        <span><img src="/static/img/2.png"></span>
+                    </div>
+                    <div class="collection">
+                        <p><a>我的收藏</a></p>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<div id="main">
+			<div class="content">
+				<ul>
+					<li><a href ={% url 'home' 1 %}>全部图书</a></li>
+		            <li><a href ={% url 'home' 2 %}>查找图书</a></li>
+		            <li><a href ={% url 'home' 3 %}>添加图书</a></li>
+		            <li><a href ={% url 'home' 4 %}>借取图书</a></li>
+		            <li><a href ={% url 'home' 5 %}>用户资料</a></li>
+				</ul>
+			</div>
+            <div class="mains">
+                {% ifequal num None %}
+                    {{ message }}
+                {% endifequal %}
+
+                {% ifequal num 1 %}
+                    <p>{{ message }}</p>
+                    {% for book in books%}
+                            <div class="main">
+                                <ul>
+                                    <li>
+                                        <div class="book">
+                                            <a href={% url 'home' 6 book.book_id %}>
+                                                <img src="{{ book.book_image }}">
+                                            </a>
+                                            <div class="detail">
+                                                <p>{{ book.book_name }}</p>
+                                                <p>作者：{{ book.book_author }}</p>
+                                                <p>{{ book.book_date }}</p>
+                                                <p>{{ book.book_press }}</p>
+                                                <p>ISBN:{{ book.book_ISBN }}</p>
+                                                <p>状态:{{ book.book_status }}</p>
+                                                <span><p>简介：{{ book.book_brief }}</p></span>
+                                                <dd><a href={% url 'borrow' book.book_id%}>借书</a></dd>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                    {% endfor %}
+                {% endifequal %}
+
+                {% ifequal num 2 %}
+                        <div class="nav-left">
+                            <li><a href ={% url 'home' 2 1 %}>书名查找</a></li>
+                            <li><a href ={% url 'home' 2 2 %}>编号查找</a></li>
+                            <li><a href ={% url 'home' 2 3 %}>类别查找</a></li>
+                        </div>
+
+                        {% ifequal select_type None %}
+                            <div class="nav-right">
+                            <p>请选择查询类型</p>
+                            </div>
+                        {% endifequal %}
+
+                        {% ifequal select_type 1 %}
+                            <div class="nav-right">
+                                {% if message %}
+                                <p>{{ message }}</p>
+                                {% endif %}
+                                <form action="" method="POST" enctype="multipart/form-data" name="BookForm">
+                                请输入想要查询的图书书名:<input type="text" name="book_name">
+                                <input type="submit" value="查询">
+                                </form>
+                            </div>
+                            {% if books %}
+                                {% for book in books %}
+                                <div class="main">
+                                    <ul>
+                                        <li>
+                                            <div class="book">
+                                                <a href={% url 'home' 6 book.book_id %}>
+                                                    {% if media %}
+                                                        <img src="{{ book.book_image }}">
+                                                    {% else %}
+                                                        <img src="http://127.0.0.1:8000/media/{{ book.book_image }}">
+                                                    {% endif %}
+                                                </a>
+                                                <div class="detail">
+                                                    <p>{{ book.book_name }}</p>
+                                                    <p>作者：{{ book.book_author }}</p>
+                                                    <p>{{ book.book_date }}</p>
+                                                    <p>{{ book.book_press }}</p>
+                                                    <p>ISBN:{{ book.book_ISBN }}</p>
+                                                    <p>状态:{{ book.book_status }}</p>
+                                                    <span><p>简介：{{ book.book_brief }}</p></span>
+                                                    <dd><a href={% url 'borrow' book.book_id%}>借书</a></dd>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endifequal %}
+
+                        {% ifequal select_type 2 %}
+                            <div class="nav-right">
+                            {% if message %}
+                            <p>{{ message }}</p>
+                            {% endif %}
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                请输入想要查询的图书编号:<input type="text" name="book_id">
+                                <input type="submit" value="查询">
+                            </form>
+                            </div>
+                            {% if books %}
+                                <div class="main">
+                                    <ul>
+                                        <li>
+                                            <div class="book">
+                                                <a href={% url 'home' 6 books.book_id %}>
+                                                    {% if media %}
+                                                        <img src="{{ books.book_image }}">
+                                                    {% else %}
+                                                        <img src="http://127.0.0.1:8000/media/{{ books.book_image }}">
+                                                    {% endif %}
+                                                </a>
+                                                <div class="detail">
+                                                    <p>{{ books.book_name }}</p>
+                                                    <p>作者：{{ books.book_author }}</p>
+                                                    <p>{{ books.book_date }}</p>
+                                                    <p>{{ books.book_press }}</p>
+                                                    <p>ISBN:{{ books.book_ISBN }}</p>
+                                                    <p>状态:{{ book.book_status }}</p>
+                                                    <span><p>简介：{{ books.book_brief }}</p></span>
+                                                    <dd><a href={% url 'borrow' book.book_id%}>借书</a></dd>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </div>
+                            {% endif %}
+                        {% endifequal %}
+
+                        {% ifequal select_type 3 %}
+                            <div class="nav-right">
+                                {% if message %}
+                                <p>{{ message }}</p>
+                                {% endif %}
+                                <form action="" method="POST"  enctype="multipart/form-data">
+                                    请输入想要查询的图书类型:<input type="text" name="book_type">
+                                    <input type="submit" value="查询">
+                                </form>
+                            </div>
+                            {% for book in books%}
+                                <div class="main">
+                                    <ul>
+                                        <li>
+                                            <div class="book">
+                                                <a href={% url 'home' 6 book.book_id %}>
+                                                    {% if media %}
+                                                        <img src="{{ book.book_image }}">
+                                                    {% else %}
+                                                        <img src="http://127.0.0.1:8000/media/{{ book.book_image }}">
+                                                    {% endif %}
+                                                </a>
+                                                <div class="detail">
+                                                    <p>{{ book.book_name }}</p>
+                                                    <p>作者：{{ book.book_author }}</p>
+                                                    <p>{{ book.book_date }}</p>
+                                                    <p>{{ book.book_press }}</p>
+                                                    <p>ISBN:{{ book.book_ISBN }}</p>
+                                                    <p>状态:{{ book.book_status }}</p>
+                                                    <span><p>简介：{{ book.book_brief }}</p></span>
+                                                    <dd><a href={% url 'borrow' book.book_id%}>借书</a></dd>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        {% endifequal %}
+                {% endifequal %}
+
+                {% ifequal num 3 %}
+                    <div>
+                        {% if message %}
+                        {{ message }}
+                        {% endif %}
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            <div class="yanzRight">
+                                <input style="margin-top:5px;float: left;" id="st18" name="book_image" onchange="previewImage(this,5)" type="file" value="0.jpg"/>
+                                <span class="dui" id="imgOrder_dui" style="display: none;"></span>
+                            </div>
+                            <div id="preview5" style="margin-left:150px;clear:both; padding-top:15px;">
+                                <img src="" alt="" id="imghead5" height="200" width="200" style="display:none;"/>
+                            </div>
+                            <dt>书名 :</dt><input type="text" name="book_name" ><br>
+                            <dt>图书类型:</dt><input type="text" name="book_type"  ><br>
+                            <dt>图书价格:</dt><input type="text" name="book_price" ><br>
+                            <dt>图书作者:</dt><input type="text" name="book_author"><br>
+                            <dt>出版社:</dt><input type="text" name="book_press" ><br>
+                            <dt>出版日期:</dt><input type="text" name="book_date" ><br>
+                            <dt>ISBN:</dt><input type="text" name="book_ISBN" ><br>
+                            <dt>图书简介:</dt><input type="text" name="book_brief"><br>
+                            <input type="submit" value="添加">
+                        </form>
+                    </div>
+                {% endifequal %}
+
+                {% ifequal num 4 %}
+                    {% for book in books%}
+                            <div class="main">
+                                <ul>
+                                    <li>
+                                        <div class="book">
+                                            <a href={% url 'home' 6 book.book_id %}>
+                                                {% if media %}
+                                                    <img src="{{ book.book_image }}">
+                                                {% else %}
+                                                    <img src="http://127.0.0.1:8000/media/{{ book.book_image }}">
+                                                {% endif %}
+                                            </a>
+                                            <div class="detail">
+                                                <p>{{ book.book_name }}</p>
+                                                <p>作者：{{ book.book_author }}</p>
+                                                <p>{{ book.book_date }}</p>
+                                                <p>{{ book.book_press }}</p>
+                                                <p>ISBN:{{ book.book_ISBN }}</p>
+                                                <p>状态:{{ book.book_status }}</p>
+                                                <span><p>简介：{{ book.book_brief }}</p></span>
+                                                {% for borrow in borrows %}
+                                                    {% ifequal book.book_id borrow.book_id.book_id %}
+                                                        {% ifequal user.userid borrow.userid.userid%}
+                                                            <p>归还日期：{{ borrow.reDatePlan }}</p>
+                                                        {% endifequal %}
+                                                    {% endifequal %}
+                                                {% endfor %}
+                                                <dd><a href={% url 'returns' book.book_id %}>还书</a></dd>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                    {% endfor %}
+                {% endifequal %}
+
+                {% ifequal num 5 %}
+                    <div class="nav-left">
+                    <img src="http://127.0.0.1:8000/media/{{ user.userphoto }}" style="width: 150px;height: 200px;">
+                    </div>
+                    <div class="nav-right">
+                            <a style="float: right" href={% url 'home' 7 user.userid %}>修改</a>
+                            <dt>昵    称：{{ user.name }}</dt>
+                            <dt>性    别：{{ user.sex }}</dt>
+                            <dt><p>读者类型：</p>
+                                {% ifequal user.usertype.usertype 1 %}
+                                <p>管理员</p>
+                                {% endifequal %}
+                                {% ifequal user.usertype.usertype 2 %}
+                                <p>读者</p>
+                                {% endifequal %}
+                            </dt>
+                            <dt><p>用户状态：</p>
+                                {% ifequal user.status 1 %}
+                                <p>在线</p>
+                                {% endifequal %}
+                                {% ifequal user.status 0 %}
+                                <p>离线</p>
+                                {% endifequal %}
+                            </dt>
+                            <dt>邮    箱：{{ user.email }}</dt>
+                            <dt>联系电话：{{ user.tel }}</dt>
+                            <dt>借书数量：{{ user.borrownum }}本</dt>
+                            <dt>注册时间：{{ user.daterag }}</dt>
+                        </div>
+                {% endifequal %}
+
+                {% ifequal num 6 %}
+                    {% if message %}
+                    {{ message }}
+                    {% endif %}
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div class="yanzRight">
+                            <input style="margin-top:5px;float: left;" id="st18" name="book_image" onchange="previewImage(this,5)" type="file"/>
+                            <span class="dui" id="imgOrder_dui" style="display: none;"></span>
+                        </div>
+                        <div id="preview5" style="margin-left:150px;clear:both; padding-top:15px;">
+                            <img src="" alt="" id="imghead5" height="200" width="200" style="display:none;"/>
+                        </div>
+                        <dt>书名 :</dt><input type="text" name="book_name" value={{ books.book_name }} ><br>
+                        <dt>图书类型:</dt><input type="text" name="book_type" value={{ books.book_type }} ><br>
+                        <dt>图书价格:</dt><input type="text" name="book_price" value={{ books.book_price }}><br>
+                        <dt>图书作者:</dt><input type="text" name="book_author" value={{ books.book_author }}><br>
+                        <dt>出版社:</dt><input type="text" name="book_press" value={{ books.book_press }}><br>
+                        <dt>出版日期:</dt><input type="text" name="book_date" value={{ books.book_date }}><br>
+                        <dt>ISBN:</dt><input type="text" name="book_ISBN" value={{ books.book_ISBN }}><br>
+                        <dt>图书简介:</dt><input type="text" name="book_brief" value={{ books.book_brief }}><br>
+                        <input type="submit" value="修改">
+                        <input type="submit" value="删除" formaction={% url 'book_delete' books.book_id %}>
+                    </form>
+                {% endifequal %}
+
+                {% ifequal num 7 %}
+                    {% if message %}
+                    {{ message }}
+                    {% endif %}
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div class="yanzRight">
+                            <input style="margin-top:5px;float: left;" id="st18" name="userphoto" onchange="previewImage(this,5)" type="file"/>
+                            <span class="dui" id="imgOrder_dui" style="display: none;"></span>
+                        </div>
+                        <div id="preview5" style="margin-left:150px;clear:both; padding-top:15px;">
+                            <img src="" alt="" id="imghead5" height="200" width="200" style="display:none;"/>
+                        </div>
+                        <dt>昵    称：</dt><input type="text" name="name" value={{ user.name }}>
+                        <dt>邮    箱：</dt><input type="text" name="email" value={{ user.email }}>
+                        <dt>联系电话：</dt><input type="text" name="tel" value={{ user.tel }}>
+                        <dt>性    别：</dt><input type="text" name="sex" value={{ user.sex }}>
+                        <input type="submit" value="确定">
+                    </form>
+                {% endifequal %}
+            </div>
+        </div>
+        <div id="footer"></div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	font-family: '宋体';
+	font-size: 20px;
+}
+a{
+	color: black;
+	text-decoration: none
+}
+input{
+	outline: none;
+}
+a:hover{
+	cursor: pointer
+}
+#wrap{
+	width: 100%
+}
+#header{
+	width: 100%;
+}
+.top{
+	background-color: #F9F9F9;
+	width: 100%;
+	height: 35px;
+	line-height: 35px;
+}
+.top > div{
+    position: absolute;
+	width: 1366px;
+	height: 35px;
+}
+.top > div > ul{
+    position: absolute;
+    height: 35px;
+    right: 76px;
+}
+.top > div > ul > a > li{
+	margin-left: 10px;
+	margin-right: 10px;
+	float: right;
+	display: block;
+	font-size: 12px;
+}
+.welcome{
+    position: absolute;
+    right: 450px;
+}
+.welcome > p{
+    float: left;
+    font-size: 12px;
+}
+.welcome > a{
+    float: left;
+    font-size: 12px;
+    color: #FF2832;
+}
+.title{
+	position: absolute;
+	color: black;
+	left: 76px;
+}
+.title > p > a{
+	font-size: 12px;
+}
+
+.nav{
+	margin: 0px auto;
+	width: 1214px;
+	height: 100px;
+}
+.nav > div{
+    position: absolute;
+	width: 1214px;
+	height: 100px;
+}
+.logo{
+	position: absolute;
+    left: 40px;
+    top: 20px;
+}
+.logo > p{
+	height: 50px;
+    line-height: 50px;
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: '华文新魏';
+}
+
+.search{
+	position: absolute;
+	left: 330px;
+    top: 20px;
+	width: 562px;
+	height: 40px;
+	border: solid 2px #FF2832;
+}
+.search > input{
+	float: left;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 500px;
+	height: 20px;
+	border: none;
+}
+.search > span{
+	float: left;
+	width: 52px;
+	height: 40px;
+	background: #FF2832;
+}
+.search > span > img{
+	margin-top: 5px;
+	margin-left: 10px;
+	width: 30px;
+	height: 30px;
+}
+.collection{
+	position: absolute;
+    top: 20px;
+	right: 50px;
+	width: 100px;
+	height: 40px;
+	border: solid 1px lightgray;
+	line-height: 40px;
+	text-align: center;
+}
+.collection a:hover{
+	color: #FF2832;
+}
+.content{
+	margin: 0px auto;
+	width: 1214px;
+	height: 50px;
+}
+.content > ul{
+	margin-left: 95px;
+}
+.content > ul > li{
+	display: block;
+	float: left;
+	width: 205px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-bottom: solid 1px red;
+}
+.content > ul > li >a{
+	display: block;
+	font-size: 20px;
+	transition: all .3s ease;
+}
+.content > ul > li >a:hover{
+	color: #FF2832;
+	font-size:22px;
+}
+.mains{
+	margin:20px auto;
+	width:1030px;
+}
+.main{
+	float: left;
+	margin:20px auto;
+	width: 1030px;
+	height: 300px;
+}
+.main > ul > li{
+	margin-top: 10px;
+	height: 300px;
+	display: block;
+	border: silver 1px solid;
+}
+.book{
+	position: absolute;
+	width: 1030px;
+	height: 280px;
+}
+.book > a > img{
+	position: absolute;
+	top: 40px;
+	left: 20px;
+	width: 200px;
+	height: 200px;
+}
+.detail{
+	position: absolute;
+	top: 25px;
+	right: 23px;
+	width: 750px;
+	height: 250px;
+}
+.detail > p{
+	margin-top: 10px;
+	width: 750px;
+	font-size: 20px; 
+}
+.detail > span >p{
+	margin-top: 10px;
+	width: 750px;
+	font-size: 18px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.detail > dd{
+	position: absolute;
+	right: 20px;
+	bottom: -10px;
+	width: 50px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	border: solid 1px black;
+}
+.nav-left{
+	display: block;
+	float: left;
+	width: 200px;
+	height: 150px;
+}
+.nav-left > li{
+	display: block;
+	width: 200px;
+	height: 50px;
+	font-size: 20px;
+	text-align: center;
+	line-height: 50px;
+	transition: all 0.3s ease;
+}
+.nav-left > li > a{
+	border-left-color: #FF2832;
+}
+.nav-right{
+	position: relative;
+	margin-left: 200px;
+	width: 825px;
+	height: 150px;
+}
+.nav-right > form{
+    position: absolute;
+    top: 50px;
+    left: 20px;
+}
+.nav-right > p{
+	position: absolute;
+	right: 100px;
+	bottom: 10px;
+}
