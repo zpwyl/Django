@@ -37,7 +37,7 @@ class Book(models.Model):
     book_ISBN = models.CharField(max_length=15)
     book_brief = models.CharField(max_length=255)
     book_image = models.ImageField(upload_to='', default="0.jpg")
-    book_status = models.CharField(max_length=2, default="0")
+    book_status = models.PositiveSmallIntegerField(default=0)
 
 
 class Borrow(models.Model):

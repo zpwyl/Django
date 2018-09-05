@@ -93,6 +93,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             color: #fff;
+            font-size: 10px;
         }
     </style>
 </head>
@@ -103,10 +104,14 @@
             <div style="width: 300px;height: 30px;">
             <p style="color: red">{{ message }}</p>
             </div>
-            用户名：<input type="text" name="username">
-            密&nbsp;码：<input type="password" name="password">
-            重复密码: <input type="password" name="password1">
-            邮箱: <input type="text" name="email">
+            <label>用户名：</label><input type="text" name="username">
+            <label>密&nbsp;码：</label><input type="password" name="password">
+            <label>重复密码: </label><input type="password" name="password1">
+            <label>邮箱: </label><input type="text" name="email">
+            <label>用户类型：</label>
+            <input type="radio" name="usertype" value='1'>学生
+            <input type="radio" name="usertype" value='2'>研究生
+            <input type="radio" name="usertype" value='3'>教师
         </div>
         <div class="btn">
             <div>

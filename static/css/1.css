@@ -164,8 +164,8 @@ a:hover{
 	float: left;
 	margin:20px auto;
 	width: 1030px;
-	height: 300px;
 }
+
 .main > ul > li{
 	margin-top: 10px;
 	height: 300px;
@@ -192,12 +192,19 @@ a:hover{
 	height: 250px;
 }
 .detail > p{
-	margin-top: 10px;
-	width: 750px;
+	float: left;
+	margin-top: 25px;
+	width: 300px;
 	font-size: 20px; 
 }
+
+.detail  > p > p{
+	width: 200px;
+    float: left;
+}
 .detail > span >p{
-	margin-top: 10px;
+	float: left;
+	margin-top: 25px;
 	width: 750px;
 	font-size: 18px;
 	white-space: nowrap;
@@ -247,4 +254,26 @@ a:hover{
 	position: absolute;
 	right: 100px;
 	bottom: 10px;
+}
+.nav-right > label{
+	width: 750px;
+	margin-top: 20px;
+	display: block;
+}
+.nav-right > label >span{
+	width: 100px;
+	height: 20px;
+}
+.page{
+	position: relative;
+	width: 500px;
+	margin: 0px auto;
+}
+.page > a{
+	float: left;
+	margin-left: 10px;
+}
+.page > p{
+	float: left;
+	margin-left: 10px;
 }
