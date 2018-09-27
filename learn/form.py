@@ -8,6 +8,7 @@ class LoginForm(forms.Form):
     usertype = forms.IntegerField(label='用户类型')
     borrownum = forms.CharField(label='借书数量', empty_value='0')
     status = forms.CharField(label='用户状态', empty_value='0')
+    code = forms.CharField(label='验证码', empty_value='0')
 
 class UserForm(forms.Form):
     userphoto = forms.FileField(label='图片', allow_empty_file='0.jpg')

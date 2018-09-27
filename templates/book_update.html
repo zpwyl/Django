@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>修改图书信息</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/1.css">
+    <script type="text/javascript" src="/static/js/1.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="header">
+			<div class="top">
+				<div>
+					<ul>
+						<a href="#"><li>客户服务</li></a>
+						<a href="#"><li>企业采购</li></a>
+						<a href="#"><li>我要出书</li></a>
+						<a href="#"><li>小说投稿</li></a>
+						<a href="#"><li>我的图书馆</li></a>
+					</ul>
+                    <div class="welcome"><p>欢迎光临我的图书馆，请
+                    </p>
+                        {% if v %}
+                        <a>欢迎{{ v }}</a>
+                    </p>
+                        <a href={% url 'leyout' %}>注销</a>
+                        {% else %}<a href={% url 'login' %}>登录</a>{% endif %}</div>
+                    <div class="title">
+                        <p><a href="#">亚木图书</a><p>
+                    </div>
+                </div>
+			</div>
+			<div class="nav">
+                <div>
+                    <div class="logo"><p>亚木图书</p></div>
+                    <div class="search">
+                        <input type="text">
+                        <span><img src="/static/img/2.png"></span>
+                    </div>
+                    <div class="collection">
+                        <p><a>我的收藏</a></p>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<div id="main">
+			<div class="content">
+				<ul>
+					<li><a href ={% url 'home' 1 %}>全部图书</a></li>
+		            <li><a href ={% url 'home' 2 %}>查找图书</a></li>
+		            <li><a href ={% url 'home' 3 %}>添加图书</a></li>
+		            <li><a href ={% url 'home' 4 %}>借取图书</a></li>
+		            <li><a href ={% url 'home' 5 %}>用户资料</a></li>
+				</ul>
+			</div>
+            <div class="mains">
+                {% if message %}
+                {{ message }}
+                {% endif %}
+                <div class="main">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div class="yanzRight">
+                            <input style="margin-top:5px;float: left;" id="st18" name="book_image" onchange="previewImage(this,5)" type="file"/>
+                            <span class="dui" id="imgOrder_dui" style="display: none;"></span>
+                        </div>
+                        <div id="preview5" style="margin-left:150px;clear:both; padding-top:15px;">
+                            <img src="" alt="" id="imghead5" height="200" width="200" style="display:none;"/>
+                        </div>
+                        <label>书名 :</label><input type="text" name="book_name" value={{ books.book_name }} ><br>
+                        <label>图书类型:</label><input type="text" name="book_type" value={{ books.book_type }} ><br>
+                        <label>图书价格:</label><input type="text" name="book_price" value={{ books.book_price }}><br>
+                        <label>图书作者:</label><input type="text" name="book_author" value={{ books.book_author }}><br>
+                        <label>出版社:</label><input type="text" name="book_press" value={{ books.book_press }}><br>
+                        <label>出版日期:</label><input type="text" name="book_date" value={{ books.book_date }}><br>
+                        <label>ISBN:</label><input type="text" name="book_ISBN" value={{ books.book_ISBN }}><br>
+                        <label>图书简介:</label><input type="text" name="book_brief" value={{ books.book_brief }}><br>
+                        <input type="submit" value="修改">
+                        <input type="submit" value="删除" formaction={% url 'book_delete'  books.book_id %}>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+	</div>
+</body>
+</html>

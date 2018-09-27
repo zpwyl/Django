@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>修改图书信息</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/1.css">
+    <script type="text/javascript" src="/static/js/1.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="header">
+			<div class="top">
+				<div>
+					<ul>
+						<a href="#"><li>客户服务</li></a>
+						<a href="#"><li>企业采购</li></a>
+						<a href="#"><li>我要出书</li></a>
+						<a href="#"><li>小说投稿</li></a>
+						<a href="#"><li>我的图书馆</li></a>
+					</ul>
+                    <div class="welcome"><p>欢迎光临我的图书馆，请
+                    </p>
+                        {% if v %}
+                        <a>欢迎{{ v }}</a>
+                    </p>
+                        <a href={% url 'leyout' %}>注销</a>
+                        {% else %}<a href={% url 'login' %}>登录</a>{% endif %}</div>
+                    <div class="title">
+                        <p><a href="#">亚木图书</a><p>
+                    </div>
+                </div>
+			</div>
+			<div class="nav">
+                <div>
+                    <div class="logo"><p>亚木图书</p></div>
+                    <div class="search">
+                        <input type="text">
+                        <span><img src="/static/img/2.png"></span>
+                    </div>
+                    <div class="collection">
+                        <p><a>我的收藏</a></p>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<div id="main">
+			<div class="content">
+				<ul>
+					<li><a href ={% url 'home' 1 %}>全部图书</a></li>
+		            <li><a href ={% url 'home' 2 %}>查找图书</a></li>
+		            <li><a href ={% url 'home' 3 %}>添加图书</a></li>
+		            <li><a href ={% url 'home' 4 %}>借取图书</a></li>
+		            <li><a href ={% url 'home' 5 %}>用户资料</a></li>
+				</ul>
+			</div>
+            <div class="mains">
+                {% if message %}
+                {{ message }}
+                {% endif %}
+                <div class="main">
+                    <ul>
+                        <li>
+                            <div class="book">
+                                {% if books %}
+                                {% for book in books %}
+                                <a href={% url 'book_update' book.book_id %}>
+                                    <img src="{{ book.book_image }}">
+                                </a>
+                                <div class="detail">
+                                    <p>书名：{{ book.book_name }}</p>
+                                    <p>作者：{{ book.book_author }}</p>
+                                    <p>{{ book.book_date }}</p>
+                                    <p>{{ book.book_press }}</p>
+                                    <p>ISBN:{{ book.book_ISBN }}</p>
+                                    <p>状态:{% ifequal book.book_status 1%}借出{% endifequal %}{% ifequal book.book_status 0 %}在馆{% endifequal %}</p>
+                                    <span><p>简介：{{ book.book_brief }}</p></span>
+                                    <dd><a href={% url 'borrow' book.book_id%}>借书</a></dd>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        <div id="footer"></div>
+	</div>
+</body>
+</html>

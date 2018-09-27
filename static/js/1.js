@@ -11,7 +11,7 @@ function previewImage(file,imgNum)
         var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
         img.width  =  rect.width;
         img.height =  rect.height;
-        img.style.marginLeft = rect.left+'px';
+        img.style.marginLeft = (rect.left-150)+'px';
         img.style.marginTop = rect.top+'px';
       }
       var reader = new FileReader();
@@ -51,4 +51,8 @@ function clacImgZoomParam( maxWidth, maxHeight, width, height ){
     param.left = Math.round((maxWidth - param.width) / 2);
     param.top = Math.round((maxHeight - param.height) / 2);
     return param;
+}
+
+function  popup(message) {
+    alert(message)
 }
