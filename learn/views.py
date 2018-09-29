@@ -1,10 +1,12 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from .form import LoginForm, BookForm, BooksForm, UserForm
 from .models import User, Book, UserType, Borrow, History
 from .function import *
 from django.http import HttpRequest
-from django.http import HttpResponse
+from jieba import posseg, analyse
+import math
+from operator import itemgetter
 # Create your views here.
 
 
@@ -28,14 +30,23 @@ def home(request: HttpRequest, num=1, select_type=1):
             start = 10*(n-1)
             end = 10*n
             books = Book.objects.all().order_by('book_id')[start:end]
+            rec = []
+            for book in books:
+                rec.append(book.book_id)
+            recommend_books = recommend(rec)
+            reconnend_user = reconnendUser(user.userid)
+            reconnend_book = reconnendBook(n)
             content = {
                 'books': books,
-                'num':num,
+                'num': num,
                 'total_page': int(sum),
                 'cur_page': n,
                 'pre_page': n-1,
                 'next_page': n+1,
                 'user': user,
+                'recommend_books': recommend_books,
+                'reconnend_user': reconnend_user,
+                'reconnend_book': reconnend_book,
             }
             return render(request, 'home.html', content)
         if num == 2:
@@ -110,9 +121,24 @@ def home(request: HttpRequest, num=1, select_type=1):
                 }
                 return render(request, 'home.html', content)
         if num == 4:
-            history = History.objects.all()
+            n = select_type
+            start = 10 * (n - 1)
+            end = 10 * n
+            bok = History.objects.all()
+            # sum 获取总页数
+            if len(bok) % 10:
+                sum = len(bok) // 10 + 1
+            else:
+                sum = len(bok) / 10
+            history = History.objects.all()[start: end]
+            if len(history) == 0:
+                return render(request, 'popup.html', {'message': '没有借书记录', 'num': 1})
             content = {
                 'num': num,
+                'cur_page': n,
+                'pre_page': n-1,
+                'next_page': n+1,
+                'total_page': int(sum),
                 'user': user,
                 'history': history,
             }
@@ -131,23 +157,32 @@ def home(request: HttpRequest, num=1, select_type=1):
         if num == 1:
             n = select_type
             bok = Book.objects.all()
-            #sum 获取总页数
+            # sum 获取总页数
             if len(bok) % 10:
-                sum = len(bok)//10 + 1
+                sum = len(bok) // 10 + 1
             else:
-                sum = len(bok)/10
-            #n为当前页数
-            start = 10*(n-1)
-            end = 10*n
+                sum = len(bok) / 10
+            # n为当前页数
+            start = 10 * (n - 1)
+            end = 10 * n
             books = Book.objects.all().order_by('book_id')[start:end]
+            rec = []
+            for book in books:
+                rec.append(book.book_id)
+            recommend_books = recommend(rec)
+            reconnend_users = reconnendUser(user.userid)
+            reconnend_books = reconnendBook(n)
             content = {
                 'books': books,
                 'num': num,
                 'total_page': int(sum),
                 'cur_page': n,
-                'pre_page': n-1,
-                'next_page': n+1,
+                'pre_page': n - 1,
+                'next_page': n + 1,
                 'user': user,
+                'recommend_books': recommend_books,
+                'reconnend_users': reconnend_users,
+                'reconnend_books': reconnend_books,
             }
             return render(request, 'home.html', content)
         if num == 2:
@@ -180,14 +215,17 @@ def home(request: HttpRequest, num=1, select_type=1):
         if num == 3:
             warning = []
             borrows = Borrow.objects.filter(userid=user.userid)
-            for borrow in borrows:
-                a = int((get_over_day(borrow.reDatePlan) - get_over_day(get_cur_date())).days)
-                if a < 2:
-                    warning.append(borrow)
-                if len(warning) == 0:
+            if len(borrows) == 0:
+                return render(request, 'popup.html', {'message': '当前没有借书', 'num': 1})
+            else:
+                for borrow in borrows:
+                    a = int((get_over_day(borrow.reDatePlan) - get_over_day(get_cur_date())).days)
+                    if a < 2:
+                        warning.append(borrow)
+                if len(borrow) == 0:
                     return render(request, 'popup.html', {'message': '当前没有欠费警告', 'num': 1})
                 else:
-                    return render(request, 'home.html', {'num': num, 'warning': warning ,'user': user})
+                    return render(request, 'home.html', {'num': num, 'warning': warning, 'user': user})
         if num == 4:
             books = []
             borrows = Borrow.objects.all()
@@ -352,7 +390,7 @@ def returns(request, book_id):
             # 未完成
             return render(request, 'popup.html', {'message': '请先还完欠款', 'num': 4})
         else:
-            History.objects.create(username=user.name,ldDate=ldDate,book_name=book.book_name,reDateAct=reDateAct,overdue_days=overdue_date, punishMonkey=punishMonkey)
+            History.objects.create(userid=user,book_id=book,username=user.name,ldDate=ldDate,book_name=book.book_name,reDateAct=reDateAct,overdue_days=overdue_date, punishMonkey=punishMonkey)
             return render(request, 'popup.html', {'message': '已成功还书', 'num': 4})
 
 
@@ -411,7 +449,7 @@ def login(request):
                             return redirect('/home/')
                         else:
                             ErrorNum += 1
-                            return render(request, 'popup.html', {'num':1,'message': '密码或用户名输入错误'})
+                            return render(request, 'login.html', {'message': '密码或用户名输入错误'})
                     else:
                         return render(request, 'login.html', {'message': '验证码输入错误'})
                 else:
@@ -440,9 +478,10 @@ def register(request):
                 emails = is_valid_email(email)
                 usertype = lf.cleaned_data['usertype']
                 usertypes = UserType.objects.all()
+                print(usertype)
                 for ut in usertypes:
-                    if int(usertype) == ut.usertype:
-                        pass
+                    if usertype == ut.usertype:
+                        break
                 if emails == None:
                     return render(request, 'register.html', {'message':'邮箱格式输入错误'})
                 if password == password1:
@@ -482,4 +521,163 @@ def leyout(request):
         return redirect('/')
 
 
+def show_books(request, book_id):
+    username = request.session['name']
+    user = User.objects.get(username=username)
+    book = Book.objects.get(book_id=book_id)
+    return render(request, 'show_book.html', {'book': book, 'user': user})
 
+
+# 获取最热推荐
+def recommend(recommend_book):
+    books_info = {}
+    res = History.objects.values_list('userid_id', 'book_id_id')
+    for i, j in res:
+        books_info.setdefault(i, [])
+        books_info[i].append(j)
+    users = []
+    for user, goods in books_info.items():
+        for good in goods:
+            if good in recommend_book:
+                users.append(user)
+    books_id = {}
+    for user in users:
+        book_id = books_info[user]
+        for book in book_id:
+            if book in recommend_book:
+                continue
+            else:
+                books_id.setdefault(book, 0)
+                books_id[book] += 1
+    results = sorted(books_id.items(), key=itemgetter(1), reverse=True)[:4]
+    result = []
+    for res in results:
+        result.append(Book.objects.get(book_id=res[0]))
+    return result
+
+
+# 获取猜你喜欢(用户相似度)
+def reconnendUser(userId):
+    user_goods_info = {}
+    res = History.objects.values_list('userid_id', 'book_id_id')
+    for i, j in res:
+        user_goods_info.setdefault(i, [])
+        user_goods_info[i].append(j)
+    goods_user_info={}
+    user_inter_info={}
+    user_similar_info={}
+
+    for u, goods in user_goods_info.items():
+        for good in goods:
+            if good not in goods_user_info:
+                goods_user_info.setdefault(good, set())
+            else:
+                pass
+            goods_user_info[good].add(u)
+
+    #用户之间购买商品的交集
+    for gds, users in goods_user_info.items():
+        for u in users:
+            for v in users:
+                if u == v:
+                    continue
+                if u not in user_inter_info:
+                    user_inter_info.setdefault(u,{})
+                if v not in user_inter_info[u]:
+                    user_inter_info[u][v]=0
+                user_inter_info[u][v] += 1
+
+    for u, uc in user_inter_info.items():
+        for v, inter in uc.items():
+            if u not in user_similar_info:
+                user_similar_info.setdefault(u, {})
+            if v not in user_similar_info[u]:
+                user_similar_info[u][v] = 0
+            user_similar_info[u][v] = inter / math.sqrt(len(user_goods_info[u]) * len(user_goods_info[v]))
+    shopGoods = user_goods_info[userId]
+    recommendGoods = {}
+    for u, uc in sorted(user_similar_info[userId].items(), key=itemgetter(1), reverse=True)[:20]:
+        for gds in user_goods_info[u]:
+            if gds in shopGoods:
+                continue
+            if gds not in recommendGoods:
+                recommendGoods.setdefault(gds, 0)
+            recommendGoods[gds] += uc
+
+    results = sorted(recommendGoods.items(), key=itemgetter(1), reverse=True)[:8]
+    result = []
+    for res in results:
+        result.append(Book.objects.get(book_id=res[0]))
+    return result
+
+
+# 获取看了还看(内容相似度)
+def reconnendBook(n):
+    results = Book.objects.values_list('book_id', 'book_name', 'book_type', 'book_author', 'book_press', 'book_brief')
+    # 获取图书的书名标题简介等信息
+    book_info = {}
+    for res in results:
+        book_info.setdefault(res[0], [])
+        book_info[res[0]] = res[1] + res[2] + res[3] + res[4] + res[5]
+
+    # 获取停用词
+    stop_words = []
+    with open('static/txt/stop_words.txt', 'rb') as sw:
+        stop_words = sw.readlines()
+
+    # 获取当前页面十本书信息的关键字
+    rec_book_info = {}
+    start = 10*(n-1)
+    end = 10*n
+    results = Book.objects.values_list('book_id', 'book_name', 'book_type', 'book_author', 'book_press', 'book_brief')[start: end]
+    for res in results:
+        rec_book_info.setdefault(res[0], [])
+        rec_book_info[res[0]] = res[1] + res[2] + res[3] + res[4] + res[5]
+
+    key_words = []
+    for kbn, word in rec_book_info.items():
+        words = posseg.cut(word)
+        for wds in words:
+            if wds.flag.startswith('n') and wds.word not in stop_words:
+                key_words.append(wds.word)
+    resultWord = analyse.extract_tags(str(key_words), topK=10)
+
+    # 获取其他每一本书籍信息的关键字
+    other_book_words = {}
+    sum = len(Book.objects.all())
+    if start < 10:
+        start = 0
+        end = end+10
+    elif start >= 10 and end <= sum-10:
+        start = start - 10
+        end = end + 10
+    elif end > sum-10:
+        start = start-10
+        end = sum
+    for bkn, oword in book_info.items():
+        if bkn in range(10*(n-1), 10*n):
+            continue
+        else:
+            if bkn in range(start, end+1):
+                keys = []
+                owords = posseg.cut(oword)
+                for owds in owords:
+                    if owds.flag.startswith('n') and owds.word not in stop_words:
+                        keys.append(owds.word)
+                if bkn not in other_book_words:
+                    other_book_words.setdefault(bkn, [])
+                other_book_words[bkn] = analyse.extract_tags(str(keys), topK=10)
+
+
+    # 比较前十本书籍和其他每本书籍的关键字的相似度
+    recommendGoods = {}
+    for bkn, r in other_book_words.items():
+        if bkn not in recommendGoods:
+            recommendGoods.setdefault(bkn, 0)
+        recommendGoods[bkn] = len(set(r) & set(resultWord)) / len(resultWord)
+
+    results = sorted(recommendGoods.items(), key=itemgetter(1), reverse=True)[:8]
+    result = []
+    for res in results:
+        result.append(Book.objects.get(book_id=res[0]))
+    return result

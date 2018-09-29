@@ -63,7 +63,6 @@
 			</div>
             <div class="mains">
                 {% ifequal num 1 %}
-                    <p>{{ message }}</p>
                     {% for book in books%}
                         <div class="main">
                             <ul>
@@ -92,20 +91,57 @@
                         </div>
                     {% endfor %}
                     <div class="page">
-                    <a href={% url 'home' 1 1%}>首页</a>
-                    {% ifequal cur_page 1 %}
-                    <a style="pointer-events: none;cursor: default;opacity: 0.6;">上一页</a>
-                    {% else %}
-                    <a href={% url 'home' 1 pre_page %}>上一页</a>
-                    {% endifequal %}
-                    <p>当前为第{{ cur_page }}页</p>
-                    {% if next_page > total_page  %}
-                    <a style="pointer-events: none;cursor: default;opacity: 0.6;">下一页</a>
-                    {% else %}
-                    <a href={% url 'home' 1 next_page %}>下一页</a>
-                    {% endif %}
-                    <a href={% url 'home' 1 total_page %}>尾页</a>
-                </div>
+                        <a href={% url 'home' 1 1%}>首页</a>
+                        {% ifequal cur_page 1 %}
+                        <a style="pointer-events: none;cursor: default;opacity: 0.6;">上一页</a>
+                        {% else %}
+                        <a href={% url 'home' 1 pre_page %}>上一页</a>
+                        {% endifequal %}
+                        <p>当前为第{{ cur_page }}页</p>
+                        {% if next_page > total_page  %}
+                        <a style="pointer-events: none;cursor: default;opacity: 0.6;">下一页</a>
+                        {% else %}
+                        <a href={% url 'home' 1 next_page %}>下一页</a>
+                        {% endif %}
+                        <a href={% url 'home' 1 total_page %}>尾页</a>
+                    </div>
+                    <div class="recommend">
+                        <div class="left_recommend">
+                        <p><i style="margin-right: 10px;border-left:salmon 2px solid"></i>最热推荐</p>
+                            <ul>
+                                {% for recommend_book in recommend_books %}
+                                <li><a href={% url 'show_books' recommend_book.book_id  %}>
+                                    <img src={{ recommend_book.book_image }}></a>
+                                    <p>{{ recommend_book.book_name }}</p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="right_recommend">
+                            <div class="recommend_cai">
+                                <p><i style="margin-right: 10px;border-left:salmon 2px solid"></i>猜你喜欢</p>
+                                <ul>
+                                {% for reconnend_book in reconnend_books %}
+                                <li><a href={% url 'show_books' reconnend_book.book_id  %}>
+                                    <img src={{ reconnend_book.book_image }}></a>
+                                    <p>{{ reconnend_book.book_name }}</p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            </div>
+                            <div class="recommend_gou">
+                                <p><i style="margin-right: 10px;border-left:salmon 2px solid"></i>看了还看</p>
+                                <ul>
+                                    {% for reconnend_user in reconnend_users %}
+                                    <li><a href={% url 'show_books' reconnend_user.book_id  %}>
+                                        <img src={{ reconnend_user.book_image }}></a>
+                                        <p>{{ reconnend_user.book_name }}</p>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 {% endifequal %}
 
                 {% ifequal num 2 %}
@@ -194,6 +230,21 @@
                                 </ul>
                             </div>
                         {% endfor %}
+                        <div class="page">
+                            <a href={% url 'home' 4 1%}>首页</a>
+                            {% ifequal cur_page 1 %}
+                            <a style="pointer-events: none;cursor: default;opacity: 0.6;">上一页</a>
+                            {% else %}
+                            <a href={% url 'home' 4 pre_page %}>上一页</a>
+                            {% endifequal %}
+                            <p>当前为第{{ cur_page }}页</p>
+                            {% if next_page > total_page  %}
+                            <a style="pointer-events: none;cursor: default;opacity: 0.6;">下一页</a>
+                            {% else %}
+                            <a href={% url 'home' 4 next_page %}>下一页</a>
+                            {% endif %}
+                            <a href={% url 'home' 4 total_page %}>尾页</a>
+                        </div>
                     {% else %}
                         {% for book in books%}
                             <div class="main">

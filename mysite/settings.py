@@ -131,6 +131,7 @@ STATICFILES_DIRS = (
     ('js', os.path.join(STATIC_ROOT, 'js').replace('\\', '/')),
     ('img', os.path.join(STATIC_ROOT, 'img').replace('\\', '/')),
     ('upload', os.path.join(STATIC_ROOT, 'upload').replace('\\','/')),
+    ('txt', os.path.join(STATIC_ROOT, 'txt').replace('\\', '/')),
 )
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

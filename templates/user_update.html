@@ -17,13 +17,15 @@
 						<a href="#"><li>小说投稿</li></a>
 						<a href="#"><li>我的图书馆</li></a>
 					</ul>
-                    <div class="welcome"><p>欢迎光临我的图书馆，请
-                    </p>
-                        {% if v %}
-                        <a>欢迎{{ v }}</a>
-                    </p>
-                        <a href={% url 'leyout' %}>注销</a>
-                        {% else %}<a href={% url 'login' %}>登录</a>{% endif %}</div>
+                    <div class="welcome">
+                        <p>欢迎光临我的图书馆，</p>
+                        {% if user %}
+                            <p>欢迎{{ user.usertype.usertypeName }}&nbsp;{{ user.name }}</p>
+                            <a href={% url 'leyout' %}>注销</a>
+                        {% else %}
+                            请<a href={% url 'login' %}>登录</a>
+                        {% endif %}
+                    </div>
                     <div class="title">
                         <p><a href="#">亚木图书</a><p>
                     </div>

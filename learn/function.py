@@ -1,8 +1,9 @@
 import hashlib
 import re
 from datetime import datetime, timedelta
-import random,string
+import random
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
 
 #通过摘要算法对密码加密
 def calc_md5(password):
@@ -67,11 +68,11 @@ class get_yzm:
         return s
 
     # 随机颜色1:
-    def rndColor():
+    def rndColor(self):
         return (random.randint(64, 255), random.randint(64, 255), random.randint(64, 255))
 
     # 随机颜色2:
-    def rndColor2():
+    def rndColor2(self):
         return (random.randint(32, 127), random.randint(32, 127), random.randint(32, 127))
 
     def get_yzm(self):
@@ -86,16 +87,22 @@ class get_yzm:
         # 填充每个像素:
         for x in range(self.width):
             for y in range(self.height):
-                draw.point((x, y), fill=get_yzm.rndColor())
+                draw.point((x, y), fill=get_yzm.rndColor(self))
         yzm = ''
         # 输出文字:
         for t in range(4):
             s = get_yzm.rndChar(self, '')
-            draw.text((20 * t + 10, 2), s, font=font, fill=get_yzm.rndColor2())
+            draw.text((20 * t + 10, 2), s, font=font, fill=get_yzm.rndColor2(self))
             yzm += s
 
         # 模糊:
         image = image.filter(ImageFilter.BLUR)
         image.save('static/img/code.jpg', 'jpeg')
         return yzm
+
+
+
+
+
+
 

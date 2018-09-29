@@ -161,7 +161,6 @@ a:hover{
 	width:1030px;
 }
 .main{
-	float: left;
 	margin:20px auto;
 	width: 1030px;
 }
@@ -170,7 +169,6 @@ a:hover{
 	margin-top: 10px;
 	height: 300px;
 	display: block;
-	border: silver 1px solid;
 }
 .book{
 	position: absolute;
@@ -272,6 +270,7 @@ a:hover{
 .page{
 	position: relative;
 	width: 500px;
+	height: 30px;
 	margin: 0px auto;
 }
 .page > a{
@@ -281,4 +280,61 @@ a:hover{
 .page > p{
 	float: left;
 	margin-left: 10px;
+}
+.recommend{
+	position: relative;
+	margin: 100px auto;
+	width: 1030px;
+	height: 1000px;
+}
+.left_recommend{
+	position: absolute;
+	width: 220px;
+}
+.right_recommend{
+	position: absolute;
+	right: 0px;
+	width: 800px;
+}
+.left_recommend > ul > li{
+	margin-top: 20px;
+	display: block;
+}
+.left_recommend > ul > li > a > img{
+	width: 200px;
+	height: 200px;
+}
+.recommend_cai> ul > li > a >img,
+.recommend_gou> ul > li > a >img{
+	width: 150px;
+	height: 150px;
+	margin: 20px 10px;
+}
+.left_recommend > ul > li > p{
+	font-size: 12px;
+	margin: 20px auto;
+	text-align: center;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.recommend_cai,.recommend_gou{
+	width: 800px;
+}
+.recommend_cai > p,.recommend_gou > p{
+	margin-bottom: 20px;
+}
+.recommend_cai > ul > li,.recommend_gou > ul > li{
+	float: left;
+	margin: 0px 12px;
+	display: block;
+}
+.recommend_cai > ul > li > p,.recommend_gou > ul > li > p{
+	margin: 20px auto;
+	text-align: center;
+	width: 150px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	font-size: 12px;
 }

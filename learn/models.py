@@ -50,6 +50,8 @@ class Borrow(models.Model):
 
 class History(models.Model):
     History_id = models.AutoField(primary_key=True)
+    userid = models.ForeignKey('User', on_delete=models.CASCADE)
+    book_id = models.ForeignKey('Book', on_delete=models.CASCADE)
     username = models.CharField(max_length=20)
     book_name = models.CharField(max_length=90)
     overdue_days = models.CharField(max_length=20)
