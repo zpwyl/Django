@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .form import LoginForm, BookForm, BooksForm, UserForm
 from .models import User, Book, UserType, Borrow, History
 from .function import *
-from django.http import HttpRequest
+from django.http import HttpRequest, JsonResponse
 from jieba import posseg, analyse
 import math
 from operator import itemgetter
@@ -33,9 +33,6 @@ def home(request: HttpRequest, num=1, select_type=1):
             rec = []
             for book in books:
                 rec.append(book.book_id)
-            recommend_books = recommend(rec)
-            reconnend_user = reconnendUser(user.userid)
-            reconnend_book = reconnendBook(n)
             content = {
                 'books': books,
                 'num': num,
@@ -44,9 +41,6 @@ def home(request: HttpRequest, num=1, select_type=1):
                 'pre_page': n-1,
                 'next_page': n+1,
                 'user': user,
-                'recommend_books': recommend_books,
-                'reconnend_user': reconnend_user,
-                'reconnend_book': reconnend_book,
             }
             return render(request, 'home.html', content)
         if num == 2:
@@ -77,6 +71,8 @@ def home(request: HttpRequest, num=1, select_type=1):
                 }
                 return render(request, 'home.html', content)
         if num == 3:
+            a = locals()
+            print(a)
             if request.method == 'POST':
                 bf = BooksForm(request.POST, request.FILES)
                 if bf.is_valid():
@@ -89,7 +85,7 @@ def home(request: HttpRequest, num=1, select_type=1):
                     book_date = bf.cleaned_data['book_date']
                     book_ISBN = bf.cleaned_data['book_ISBN']
                     book_brief = bf.cleaned_data['book_brief']
-                    book_image = 'http://127.0.0.1:8000/media/' + str(book_images)
+                    book_image = '/media/' + str(book_images)
                     books = []
                     for book in Book.objects.all():
                         books.append(book.book_name)
@@ -146,7 +142,7 @@ def home(request: HttpRequest, num=1, select_type=1):
         if num == 5:
             username = request.session['name']
             user = User.objects.get(username=username)
-            users = User.objects.all()
+            users = User.objects.all()[0:10]
             content = {
                 'num': num,
                 'users': users,
@@ -165,13 +161,13 @@ def home(request: HttpRequest, num=1, select_type=1):
             # n为当前页数
             start = 10 * (n - 1)
             end = 10 * n
-            books = Book.objects.all().order_by('book_id')[start:end]
+            books = Book.objects.all()[start:end]
             rec = []
             for book in books:
                 rec.append(book.book_id)
-            recommend_books = recommend(rec)
-            reconnend_users = reconnendUser(user.userid)
-            reconnend_books = reconnendBook(n)
+            # recommend_books = recommend(rec)
+            # reconnend_users = reconnendUser(user.userid)
+            # reconnend_books = reconnendBook(n)
             content = {
                 'books': books,
                 'num': num,
@@ -180,9 +176,9 @@ def home(request: HttpRequest, num=1, select_type=1):
                 'pre_page': n - 1,
                 'next_page': n + 1,
                 'user': user,
-                'recommend_books': recommend_books,
-                'reconnend_users': reconnend_users,
-                'reconnend_books': reconnend_books,
+                # 'recommend_books': recommend_books,
+                # 'reconnend_users': reconnend_users,
+                # 'reconnend_books': reconnend_books,
             }
             return render(request, 'home.html', content)
         if num == 2:
@@ -328,7 +324,7 @@ def book_update(request, book_id):
             book.book_date = bsf.cleaned_data['book_date']
             book.book_ISBN = bsf.cleaned_data['book_ISBN']
             book.book_brief = bsf.cleaned_data['book_brief']
-            book.book_image = 'http://127.0.0.1:8000/media/' + str(book_images)
+            book.book_image = '/media/' + str(book_images)
             book.save()
             return render(request, 'book_update.html', {'message': '修改成功'})
         else:
@@ -645,14 +641,14 @@ def reconnendBook(n):
     # 获取其他每一本书籍信息的关键字
     other_book_words = {}
     sum = len(Book.objects.all())
-    if start < 10:
+    if start < 100:
         start = 0
-        end = end+10
-    elif start >= 10 and end <= sum-10:
-        start = start - 10
-        end = end + 10
-    elif end > sum-10:
-        start = start-10
+        end = end+100
+    elif start >= 100 and end <= sum-100:
+        start = start - 100
+        end = end + 100
+    elif end > sum-100:
+        start = start-100
         end = sum
     for bkn, oword in book_info.items():
         if bkn in range(10*(n-1), 10*n):
@@ -681,3 +677,38 @@ def reconnendBook(n):
     for res in results:
         result.append(Book.objects.get(book_id=res[0]))
     return result
+
+
+@csrf_exempt
+def get_recommend(request, n):
+    start = 10 * (n - 1)
+    end = 10 * n
+    books = Book.objects.all()[start:end]
+    rec = []
+    for book in books:
+        rec.append(book.book_id)
+    recommend_book = recommend(rec)
+    recommend_books = []
+    for recom in recommend_book:
+        recommend_books.append([recom.book_name, str(recom.book_image), recom.book_id])
+    return JsonResponse(recommend_books, safe=False)
+
+
+@csrf_exempt
+def get_reconnendUser(request):
+    username = request.session['name']
+    user = User.objects.get(username=username)
+    reconnend_user= reconnendUser(user.userid)
+    reconnend_users = []
+    for recon in reconnend_user:
+        reconnend_users.append([recon.book_name, str(recon.book_image), recon.book_id])
+    return JsonResponse(reconnend_users, safe=False)
+
+
+@csrf_exempt
+def get_reconnendBook(request, n):
+    reconnend_book = reconnendBook(n)
+    reconnend_books = []
+    for recon in reconnend_book:
+        reconnend_books.append([recon.book_name, str(recon.book_image), recon.book_id])
+    return JsonResponse(reconnend_books, safe=False)

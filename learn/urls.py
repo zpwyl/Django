@@ -18,4 +18,7 @@ urlpatterns = [
     path('popup/', views.popup, name="popup"),
     path('get_yzm_img/', views.get_yzm_img, name="get_yzm_img"),
     path('show_books/<int:book_id>/', views.show_books, name="show_books"),
+    path('get_recommend/<int:n>/', views.get_recommend, name="get_recommend"),
+    path('get_reconnendUser/', views.get_reconnendUser, name="get_reconnendUser"),
+    path('get_reconnendBook/<int:n>/', views.get_reconnendBook, name="get_reconnendBook"),
 ]

@@ -4,7 +4,7 @@
 	<title>图书管理系统</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/1.css">
     <script type="text/javascript" src="/static/js/1.js"></script>
-
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 	<div id="wrap">
@@ -109,39 +109,73 @@
                         <div class="left_recommend">
                         <p><i style="margin-right: 10px;border-left:salmon 2px solid"></i>最热推荐</p>
                             <ul>
-                                {% for recommend_book in recommend_books %}
-                                <li><a href={% url 'show_books' recommend_book.book_id  %}>
-                                    <img src={{ recommend_book.book_image }}></a>
-                                    <p>{{ recommend_book.book_name }}</p>
-                                </li>
-                                {% endfor %}
                             </ul>
                         </div>
                         <div class="right_recommend">
                             <div class="recommend_cai">
                                 <p><i style="margin-right: 10px;border-left:salmon 2px solid"></i>猜你喜欢</p>
-                                <ul>
-                                {% for reconnend_book in reconnend_books %}
-                                <li><a href={% url 'show_books' reconnend_book.book_id  %}>
-                                    <img src={{ reconnend_book.book_image }}></a>
-                                    <p>{{ reconnend_book.book_name }}</p>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                                <ul></ul>
                             </div>
                             <div class="recommend_gou">
                                 <p><i style="margin-right: 10px;border-left:salmon 2px solid"></i>看了还看</p>
-                                <ul>
-                                    {% for reconnend_user in reconnend_users %}
-                                    <li><a href={% url 'show_books' reconnend_user.book_id  %}>
-                                        <img src={{ reconnend_user.book_image }}></a>
-                                        <p>{{ reconnend_user.book_name }}</p>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
+                                <ul></ul>
                             </div>
                         </div>
                     </div>
+                    <script>
+                        var origin = {
+                            api_home: location.origin
+                        }
+                        console.log(origin.api_home)
+                        var left_recommend = $.getJSON(origin.api_home+'/get_recommend/'+'{{ cur_page }}/',function(ret) {
+                            var ul = $('div.left_recommend > ul')
+                            for (var i = 0; i <= ret.length - 1; i++) {
+                                var ps = document.createElement('li');
+                                var h = origin.api_home+'/show_books/'+ ret[i][2]
+                                ps.innerHTML = '<a href='+ h +'><img src='+ret[i][1]+'></a>'+'<p>' +ret[i][0]+ '</p>'
+                                ul.append(ps);
+                            }
+                        })
+                        var recommend_cai = $.getJSON(origin.api_home+'/get_reconnendUser/',function(ret) {
+                            var ul = $('div.recommend_cai > ul')
+                            for (var i = 0; i <= ret.length - 1; i++) {
+                                var ps = document.createElement('li');
+                                var h = origin.api_home+'/show_books/'+ ret[i][2]
+                                ps.innerHTML = '<a href='+ h +'><img src='+ret[i][1]+'></a>'+'<p>' +ret[i][0]+ '</p>'
+                                ul.append(ps);
+                            }
+                        })
+                        var recommend_gou = $.getJSON(origin.api_home+'/get_reconnendBook/'+'{{ cur_page }}/',function(ret) {
+                            var ul = $('div.recommend_gou > ul')
+                            for (var i = 0; i <= ret.length - 1; i++) {
+                                var ps = document.createElement('li');
+                                var h = origin.api_home+'/show_books/'+ ret[i][2]
+                                ps.innerHTML = '<a href='+ h +'><img src='+ret[i][1]+'></a>'+'<p>' +ret[i][0]+ '</p>'
+                                ul.append(ps);
+                            }
+                        })
+                    </script>
+                    <script>
+                        $.ajax({
+                            url: origin.api_home+'/get_recommend/'+ {{ cur_page }} + '/',
+                            type:"Post",
+                            data: {},
+                            datatype:'list',
+                        })
+                        $.ajax({
+                            url: origin.api_home+'/get_reconnendUser/',
+                            type:"Post",
+                            data: {},
+                            datatype:'list',
+                        })
+                        $.ajax({
+                            url: origin.api_home+'/get_reconnendBook/'+ {{ cur_page }} + '/',
+                            type:"Post",
+                            data: {},
+                            datatype:'list',
+                        })
+                    </script>
+
                 {% endifequal %}
 
                 {% ifequal num 2 %}
@@ -280,7 +314,7 @@
                         {% for user in users %}
                         <div class="main">
                             <div class="nav-left">
-                            <img src="http://127.0.0.1:8000/media/{{ user.userphoto }}" style="width: 150px;height: 200px;">
+                            <img src="/media/{{ user.userphoto }}" style="width: 150px;height: 200px;">
                             </div>
                             <div class="nav-right">
                                 <a style="float: right" href={% url 'user_update' user.userid %}>修改</a>
@@ -308,7 +342,7 @@
                     {% else %}
                         <div class="main">
                             <div class="nav-left">
-                            <img src="http://127.0.0.1:8000/media/{{ user.userphoto }}" style="width: 150px;height: 200px;">
+                            <img src="/media/{{ user.userphoto }}" style="width: 150px;height: 200px;">
                             </div>
                             <div class="nav-right">
                                 <a style="float: right" href={% url 'user_update' user.userid %}>修改</a>
